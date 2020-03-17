@@ -24,38 +24,37 @@ namespace MultiThreading.Task6.Continuation
             Console.WriteLine("Demonstrate the work of the each case with console utility.");
             Console.WriteLine();
 
-            var cts = new CancellationTokenSource();
-            var ct = cts.Token;
-            var i = 1;
-
-            cts.Cancel();
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
 
             try
             {
-                var mainTask = Task.Run(() =>
+                var mainTaskA = Task.Run(() =>
                 {
-                    if (i == 0) throw new ArgumentException();
-                }, ct);
+                    Console.WriteLine($"Main task A thread : {Thread.CurrentThread.ManagedThreadId}");
+                    //throw new Exception();
+                }).ContinueWith(t => { Console.WriteLine("Task A was completed success."); });
 
-                var b = mainTask.ContinueWith(parent =>
+                var mainTaskB = Task.Run(() =>
                 {
-                    Console.WriteLine("Task was completed success");
-                },
-                    TaskContinuationOptions.OnlyOnRanToCompletion);
+                    Console.WriteLine($"Main task B thread : {Thread.CurrentThread.ManagedThreadId}");
+                    throw new Exception();
+                }).ContinueWith(t => { Console.WriteLine("Task B was completed success."); }, TaskContinuationOptions.NotOnRanToCompletion);
 
-                var c = mainTask.ContinueWith(parent =>
+                var mainTaskC = Task.Run(() =>
                 {
-                    Console.WriteLine("Task was failure");
-                },
-                    TaskContinuationOptions.OnlyOnFaulted);
+                    Console.WriteLine($"Main task C thread : {Thread.CurrentThread.ManagedThreadId}");
+                    throw new Exception();
+                }).ContinueWith(t => { Console.WriteLine($"Task C thread : {Thread.CurrentThread.ManagedThreadId}"); }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
-                var d = mainTask.ContinueWith(parent =>
+                var mainTaskD = Task.Run(() =>
                 {
-                    Console.WriteLine("Task was canceled");
-                },
-                    TaskContinuationOptions.DenyChildAttach | TaskContinuationOptions.OnlyOnCanceled);
+                    Console.WriteLine($"Main task D thread : {Thread.CurrentThread.ManagedThreadId}");
+                }, token).ContinueWith(t => { Console.WriteLine($"Task D thread : {Thread.CurrentThread.ManagedThreadId}"); }, TaskContinuationOptions.OnlyOnCanceled | TaskContinuationOptions.LongRunning);
 
-                Task.WaitAll(mainTask, b, c, d);
+                tokenSource.Cancel();
+
+                Task.WaitAll(mainTaskA, mainTaskB, mainTaskC, mainTaskD);
             }
             catch (AggregateException e)
             {
