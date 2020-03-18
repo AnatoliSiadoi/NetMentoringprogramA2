@@ -44,7 +44,7 @@ namespace MultiThreading.Task5.Threads.SharedCollection
 
             var printer = Task.Run(() =>
                 {
-                    while (true)
+                    while (sharedCollection.Count < NumberCount)
                     {
                         readyToPrintEvent.WaitOne();
                         var sb = new StringBuilder();
@@ -57,9 +57,11 @@ namespace MultiThreading.Task5.Threads.SharedCollection
                         Console.WriteLine(sb.ToString());
                         readyToWriteEvent.Set();
                     }
+
                 }, ct);
 
             Task.WaitAll(writer, printer);
+            Console.WriteLine("Main thread was finished.");
             Console.ReadLine();
         }
     }
