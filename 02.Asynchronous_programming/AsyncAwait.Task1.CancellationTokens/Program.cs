@@ -8,6 +8,8 @@
  */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AsyncAwait.Task1.CancellationTokens
 {
@@ -23,7 +25,6 @@ namespace AsyncAwait.Task1.CancellationTokens
             Console.WriteLine("Calculating the sum of integers from 0 to N.");
             Console.WriteLine("Use 'q' key to exit...");
             Console.WriteLine();
-
             Console.WriteLine("Enter N: ");
 
             string input = Console.ReadLine();
@@ -38,7 +39,6 @@ namespace AsyncAwait.Task1.CancellationTokens
                     Console.WriteLine($"Invalid integer: '{input}'. Please try again.");
                     Console.WriteLine("Enter N: ");
                 }
-
                 input = Console.ReadLine();
             }
 
@@ -48,15 +48,53 @@ namespace AsyncAwait.Task1.CancellationTokens
 
         private static void CalculateSum(int n)
         {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+
             // todo: make calculation asynchronous
-            long sum = Calculator.Calculate(n);
-            Console.WriteLine($"Sum for {n} = {sum}.");
-            Console.WriteLine();
+
+            var t = new Task(() =>
+            {
+                try
+                {
+                    long sum = Calculator.Calculate(n, token);
+                    Console.WriteLine($"Sum for {n} = {sum}.");
+                    Console.WriteLine();
+                }
+                catch (OperationCanceledException e)
+                {
+                    Console.WriteLine($"Sum for {n} cancelled...");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                finally
+                {
+                    Console.WriteLine($"Finally for {n}");
+                }
+            });
+            t.Start();
+
+            Console.WriteLine($"The task for {n} started... Enter N to cancel the request:");
             Console.WriteLine("Enter N: ");
+
+            if (t.Status != TaskStatus.RanToCompletion)
+            {
+                var input = Console.ReadLine();
+
+                if (int.TryParse(input, out int newN))
+                {
+                    if (t.Status == TaskStatus.Running)
+                    {
+                        cts.Cancel();
+                    }
+                    CalculateSum(newN);
+                }
+            }
             // todo: add code to process cancellation and uncomment this line    
             // Console.WriteLine($"Sum for {n} cancelled...");
-                        
-            Console.WriteLine($"The task for {n} started... Enter N to cancel the request:");
         }
     }
 }
