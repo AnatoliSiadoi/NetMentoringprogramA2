@@ -27,7 +27,7 @@ namespace AsyncAwait.Task2.CodeReviewChallenge.Models.Support
             }
             catch (HttpRequestException ex)
             {
-                return await Task.Run(async () => await Task.FromResult($"Failed to register assistance request. Please try later. {ex.Message}"));
+                return $"Failed to register assistance request. Please try later. {ex.Message}";
             }
         }
     }
