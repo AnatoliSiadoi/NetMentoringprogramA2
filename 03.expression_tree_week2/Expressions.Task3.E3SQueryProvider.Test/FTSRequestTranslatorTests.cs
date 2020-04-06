@@ -18,7 +18,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => "EPRUIZHW006" == employee.Workstation;
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(EPRUIZHW006)", translated);
+            Assert.Equal("[\"Workstation:(EPRUIZHW006)\"]", translated);
         }
 
         #endregion
@@ -33,7 +33,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = query => query.Where(e => e.Workstation == "EPRUIZHW006");
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(EPRUIZHW006)", translated);
+            Assert.Equal("[\"Workstation:(EPRUIZHW006)\"]", translated);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => employee.Workstation == "EPRUIZHW006";
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(EPRUIZHW006)", translated);
+            Assert.Equal("[\"Workstation:(EPRUIZHW006)\"]", translated);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => employee.Workstation.Equals("EPRUIZHW006");
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(EPRUIZHW006)", translated);
+            Assert.Equal("[\"Workstation:(EPRUIZHW006)\"]", translated);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => employee.Workstation.StartsWith("EPRUIZHW006");
             
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(EPRUIZHW006*)", translated);
+            Assert.Equal("[\"Workstation:(EPRUIZHW006*)\"]", translated);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => employee.Workstation.EndsWith("IZHW0060");
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(*IZHW0060)", translated);
+            Assert.Equal("[\"Workstation:(*IZHW0060)\"]", translated);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 = employee => employee.Workstation.Contains("IZHW006");
 
             string translated = translator.Translate(expression);
-            Assert.Equal("Workstation:(*IZHW006*)", translated);
+            Assert.Equal("[\"Workstation:(*IZHW006*)\"]", translated);
         }
 
         #endregion

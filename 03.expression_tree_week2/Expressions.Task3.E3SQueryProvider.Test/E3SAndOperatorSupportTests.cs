@@ -22,6 +22,7 @@ namespace Expressions.Task3.E3SQueryProvider.Test
         [Fact]
         public void TestAndQueryable()
         {
+            // Arrange
             var translator = new ExpressionToFtsRequestTranslator();
             Expression<Func<IQueryable<EmployeeEntity>, IQueryable<EmployeeEntity>>> expression
                 = query => query.Where(e => e.Workstation == "EPRUIZHW006" && e.Manager.StartsWith("John"));
@@ -33,9 +34,16 @@ namespace Expressions.Task3.E3SQueryProvider.Test
                 // Operator between queries is AND, in other words result set will fit to both statements above
               ],
              */
+            var expected = "https://my.com/searchFts?metaType=meta%3Apeople-suite%3Apeople-api%3Acom.epam.e3s.app.people.api.data.EmployeeEntity&query=%7B%22statements%22%3A%5B%7B%22query%22%3A%22Workstation%3A(EPRUIZHW006)%22%7D,%7B%22query%22%3A%22Manager%3A(John*)%22%7D%5D,%22filters%22%3Anull,%22sorting%22%3Anull,%22start%22%3A0,%22limit%22%3A10%7D";
+            var generator = new FtsRequestGenerator(@"https://my.com");
+
+            // Act
+            string translated = translator.Translate(expression);
+            var uri = generator.GenerateRequestUrl(typeof(EmployeeEntity), translated);
 
             // todo: create asserts for this test by yourself, because they will depend on your final implementation
-            throw new NotImplementedException("Please implement this test and the appropriate functionality");
+            // Assert
+            Assert.Equal(expected, uri.OriginalString);
         }
 
         #endregion
