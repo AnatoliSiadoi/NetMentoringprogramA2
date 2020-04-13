@@ -1,6 +1,9 @@
-﻿
+﻿using System.Runtime.InteropServices;
+
 namespace PowerStateManagement.Models
 {
+    [ComVisible(true)]
+    [Guid("D5B742E7-E296-47E4-87A7-E7B03FDDFC2A")]
     public struct SystemBatteryState
     {
         public bool AcOnLine;

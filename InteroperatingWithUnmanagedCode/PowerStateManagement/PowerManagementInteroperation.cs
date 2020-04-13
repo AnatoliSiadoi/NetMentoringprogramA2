@@ -7,7 +7,8 @@ namespace PowerStateManagement
     {
         internal const uint STATUS_SUCCESS = 0;
 
-        [DllImport("PowrProf.dll", SetLastError = true)]
+        [DllImport("PowrProf.dll", SetLastError = true,
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern uint CallNtPowerInformation(
             int informaitonLevel,
             IntPtr inputBuffer,
@@ -15,7 +16,8 @@ namespace PowerStateManagement
             IntPtr outputBuffer,
             int outputBufferLength);
 
-        [DllImport("PowrProf.dll", SetLastError = true)]
+        [DllImport("PowrProf.dll", SetLastError = true,
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern bool SetSuspendState(
             bool Hibernate,
             bool Force,
