@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGenerator", "KeyGenerator\KeyGenerator.csproj", "{D319CB97-F9B9-41F8-9438-72201DA8F5B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThirdPartyLibRunner", "ThirdPartyLibRunner\ThirdPartyLibRunner.csproj", "{ACD08954-280E-499E-8F0E-D5615B1B9AC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D319CB97-F9B9-41F8-9438-72201DA8F5B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D319CB97-F9B9-41F8-9438-72201DA8F5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D319CB97-F9B9-41F8-9438-72201DA8F5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D319CB97-F9B9-41F8-9438-72201DA8F5B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD08954-280E-499E-8F0E-D5615B1B9AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD08954-280E-499E-8F0E-D5615B1B9AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD08954-280E-499E-8F0E-D5615B1B9AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD08954-280E-499E-8F0E-D5615B1B9AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8E05467-706E-46B2-8AAC-2A385F3710E0}
+	EndGlobalSection
+EndGlobal
